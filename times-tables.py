@@ -1,12 +1,17 @@
 '''
 generates randomised times tables for testing purposes
-
 Dict keeps track of how often each question is asked so as to ensure even distribution of questions
 '''
 import sys
 import os
 import random
 
+def clear():
+    ''' creates universal clear screen command for console.  doesnt do anything in IDLE '''
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 multiplier_list = []
 multiplicand_range = range(2,13)
@@ -14,6 +19,7 @@ multiplicand_range = range(2,13)
 all_combinations = dict() 
 
 #gather and sanitise user input. end result is a list of integers as the multipliers
+clear()
 print("Enter which times tables to include.")
 print("Leave blank for default of 3,4,6,7,8,9,12")
 user_input = input("Enter comma separated numbers: ")
@@ -25,11 +31,9 @@ else:
     multiplier_list = [int(x) for x in multiplier_list if x.strip().isdigit()]
 
 if len(multiplier_list) == 0:
+    clear()
     print("No valid input.  Exiting")
     sys.exit()
-    
-print(f'Testing on the following times tables: {multiplier_list}')
-print('Press Enter to continue, or q to quit')
 
 # build dict of all possible multiplier x multiplicant combinations as keys.  value = number of times it has been shown
 for multiplier in multiplier_list:
@@ -38,6 +42,11 @@ for multiplier in multiplier_list:
         all_combinations[multiplication_string] = 0
 
 while True:
+    clear()
+    print(f'Testing on the following times tables: {multiplier_list}')
+    print('Press Enter to continue, or q to quit')
+    print('')
+    
     #build list of keys that match lowest value
     lowest = list(all_combinations.values())
     lowest.sort()
@@ -49,15 +58,10 @@ while True:
 
     #show expression and await for input
     print(random_choice)
+    print('')
     continue_input = input('')
     if continue_input == 'q':
+        clear()
         sys.exit()
-
-    #clears screen for less messy viewing.  command depends on os.  does not work in IDLE but OK in py interpreter
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
-    
     
 
